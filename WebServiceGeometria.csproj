@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <Folder Include="QueryMySql\" />
+    <Folder Include="Respuestas\Minijuegos\DTO\" />
   </ItemGroup>
 
 </Project>

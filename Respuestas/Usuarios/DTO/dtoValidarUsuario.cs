@@ -1,4 +1,4 @@
-﻿namespace WebServiceGeometria.DTO.Usuarios.Parametros
+﻿namespace WebServiceGeometria.Respuestas.Usuarios.DTO
 {
     public class dtoValidarUsuario
     {

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Crypto.Generators;
+﻿using MySql.Data.MySqlClient;
 using System.Data;
-using WebServiceGeometria.DTO.Usuarios.Parametros;
-using WebServiceGeometria.DTO.Usuarios.Vistas;
-
+using WebServiceGeometria.Respuestas.Usuarios.Vistas;
+using WebServiceGeometria.Respuestas.Usuarios.DTO;
 namespace WebServiceGeometria.Servicios.Usuarios
 {
     public class ServiceUsuarios
