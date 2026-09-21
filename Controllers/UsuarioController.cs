@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebServiceGeometria.DTO.Usuarios.Parametros;
-using WebServiceGeometria.DTO.Usuarios.Vistas;
+using WebServiceGeometria.Respuestas.Usuarios.DTO;
+using WebServiceGeometria.Respuestas.Usuarios.Vistas;
 using WebServiceGeometria.Servicios.Usuarios;
 
 namespace WebServiceGeometria.Controllers

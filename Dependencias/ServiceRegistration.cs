@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebServiceGeometria.Servicios.Minijuegos;
 using WebServiceGeometria.Servicios.Usuarios;
 namespace WebServiceGeometria.Contexto
 {
@@ -12,13 +13,7 @@ namespace WebServiceGeometria.Contexto
 
             // Inyecta el servicio de usuario
             services.AddScoped<ServiceUsuarios>();
-            /*services.AddScoped<ServicioImagen>();
-            services.AddScoped<ServicioInstalacion>();
-            services.AddScoped<ServicioHabitacion>();
-            services.AddScoped<ServicioHorarios>();
-            services.AddScoped<ServicioServicio>();
-            services.AddScoped<ServicioTipo_Instalacion>();
-            services.AddScoped<ServicioDuenoUsuario>();*/
+            services.AddScoped<ServiceMinijuegos>();
             return services;
         }
     }

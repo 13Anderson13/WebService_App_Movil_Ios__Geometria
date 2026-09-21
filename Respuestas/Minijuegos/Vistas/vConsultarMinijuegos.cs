@@ -3,9 +3,8 @@
     public class vConsultarMinijuegos
     {
         public int id_minijuego { get; set; }
-        public String nombre_minijuego { get; set; }
-        public String icono { get; set; }
-        public String descripcion { get; set; }
-        public bool estado { get; set; }
+        public string nombre_minijuego { get; set; }
+        public string icono { get; set; }
+        public string descripcion { get; set; }
     }
 }

@@ -11,32 +11,39 @@ namespace WebServiceGeometria.Servicios.Minijuegos
         }
         public List<vConsultarMinijuegos> getMenu()
         {
-            List<vConsultarMinijuegos> minijuegos = new List<vConsultarMinijuegos>();
-
-            using (MySqlConnection consulta = new MySqlConnection(_connectionString))
+            try
             {
-                consulta.Open();
+                List<vConsultarMinijuegos> minijuegos = new List<vConsultarMinijuegos>();
 
-                string query = @" SELECT * FROM V_Consultar_Minijuego WHERE estado = true";
-
-                MySqlCommand cmd = new (query, consulta);
-
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read()) 
+                using (MySqlConnection consulta = new MySqlConnection(_connectionString))
                 {
-                    minijuegos.Add(new vConsultarMinijuegos
-                    { 
-                        id_minijuego = Convert.ToInt32(reader["id_minijuego"]),
-                        nombre_minijuego = reader["nombre_minijuego"].ToString(),
-                        icono = reader["minijuego"].ToString(),
-                        descripcion = reader["descripcion"].ToString()
-                    });
+                    consulta.Open();
+
+                    string query = @" SELECT * FROM v_consultar_minijuego WHERE estado = 1";
+
+                    MySqlCommand cmd = new(query, consulta);
+
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        minijuegos.Add(new vConsultarMinijuegos
+                        {
+                            id_minijuego = Convert.ToInt32(reader["id_minijuego"]),
+                            nombre_minijuego = reader["nombre_minijuego"].ToString(),
+                            icono = reader["icono"].ToString(),
+                            descripcion = reader["descripcion"].ToString()
+                        });
+                    }
+
                 }
 
+                return minijuegos;
             }
-
-            return minijuegos;
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
     }
