@@ -21,10 +21,11 @@ CREATE TABLE Categoria_Minijuego(
     icono VARCHAR(50),
     descripcion TEXT,
     estado BOOLEAN DEFAULT TRUE,
-    ventana VARCHAR(50) DEFAULT "HOLA"
+    ventana VARCHAR(50) DEFAULT "VentanaDefault"
 );
 
 INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Relacionar Figuras","heart", "Aprende y relaciona figuras");
+INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Calcular angulos","triangle", "Aprende y sobre angulos");
 
 CREATE TABLE Logros
 (
@@ -125,10 +126,9 @@ END //
 DELIMITER ;
 
 -- ===== VISTAS DISPONIBLES =====
-
 CREATE VIEW V_Consultar_Minijuego
 AS
-	SELECT id_minijuego, nombre_minijuego, icono, descripcion, estado from Categoria_Minijuego
+	SELECT id_minijuego, nombre_minijuego, icono, descripcion, estado, ventana from Categoria_Minijuego
 END;
 
 
@@ -136,4 +136,3 @@ CREATE VIEW V_Consultar_Logros
 AS
 	SELECT id_logro, nombre_logro, descripcion_logro, icono FROM Logros
 END;
--- SELECT * FROM V_Consultar_Logros;

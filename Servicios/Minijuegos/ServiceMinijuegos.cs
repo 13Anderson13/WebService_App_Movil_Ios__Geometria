@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using System.ComponentModel;
 using System.Data;
 using WebServiceGeometria.Respuestas.Minijuegos.DTO;
 using WebServiceGeometria.Respuestas.Minijuegos.Vistas;
@@ -34,7 +35,9 @@ namespace WebServiceGeometria.Servicios.Minijuegos
                             id_minijuego = Convert.ToInt32(reader["id_minijuego"]),
                             nombre_minijuego = reader["nombre_minijuego"].ToString(),
                             icono = reader["icono"].ToString(),
-                            descripcion = reader["descripcion"].ToString()
+                            descripcion = reader["descripcion"].ToString(),
+                            estado = Convert.ToBoolean(reader["estado"]),
+                            ventana = reader["ventana"].ToString()
                         });
                     }
 
