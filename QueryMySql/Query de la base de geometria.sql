@@ -20,10 +20,11 @@ CREATE TABLE Categoria_Minijuego(
     nombre_minijuego VARCHAR(50) NOT NULL,
     icono VARCHAR(50),
     descripcion TEXT,
-    estado BOOLEAN DEFAULT TRUE
+    estado BOOLEAN DEFAULT TRUE,
+    ventana VARCHAR(50) DEFAULT "HOLA"
 );
 
-INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Relacionar Figuras","circle", "Aprende y relaciona figuras");
+INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Relacionar Figuras","heart", "Aprende y relaciona figuras");
 
 CREATE TABLE Logros
 (
@@ -34,7 +35,10 @@ CREATE TABLE Logros
 );
 
 INSERT INTO Logros (nombre_logro, descripcion_logro, icono) VALUES ("INICIO SESION","Regristrate","circle");
+
 -- ===== Procedimientos almacenados =====
+
+-- Descripcion : (Inserta un usuario en la base de datos, aunque como tal solo en el web service) 
 DELIMITER //
 CREATE DEFINER=`Bruce`@`%` PROCEDURE `SP_Insertar_Usuario`
 (
@@ -69,9 +73,40 @@ BEGIN
         1
     );
 END //
-
 DELIMITER ;
 
+-- Descripcion : (Inserta un nuevo Minijjuego para ser visualizado en el menu de la aplicacion de iOS)
+DELIMITER //
+CREATE DEFINER = `Bruce`@`%` PROCEDURE `SP_Insertar_Minijuego`
+(
+	IN sp_nombre_minijuego VARCHAR(50),
+    IN sp_icono VARCHAR(50),
+    In sp_descripcion TEXT,
+    In sp_estado BOOLEAN,
+    In sp_ventana VARCHAR(50)
+)BEGIN
+	INSERT INTO geometria.categoria_minijuego
+    (
+		nombre_minijuego,
+        icono,
+        descripcion,
+        estado,
+        ventana
+    )
+    VALUES
+    (
+		sp_nombre_minijuego,
+        sp_icono,
+        sp_descripcion,
+        sp_estado,
+        sp_ventana
+    );
+END
+DELIMITER ;
+
+
+-- Descripcion ()
+-- Validar
 DELIMITER //
 CREATE DEFINER=`Bruce`@`%` PROCEDURE `SP_Validar_Usuario`
 (
@@ -87,7 +122,6 @@ CREATE DEFINER=`Bruce`@`%` PROCEDURE `SP_Validar_Usuario`
     WHERE login = sp_login
     LIMIT 1;
 END //
-
 DELIMITER ;
 
 -- ===== VISTAS DISPONIBLES =====
@@ -97,4 +131,9 @@ AS
 	SELECT id_minijuego, nombre_minijuego, icono, descripcion, estado from Categoria_Minijuego
 END;
 
--- SELECT * FROM v_consultar_minijuego;
+
+CREATE VIEW V_Consultar_Logros
+AS
+	SELECT id_logro, nombre_logro, descripcion_logro, icono FROM Logros
+END;
+-- SELECT * FROM V_Consultar_Logros;

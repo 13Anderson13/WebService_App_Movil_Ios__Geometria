@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebServiceGeometria.Respuestas.Minijuegos.DTO;
 using WebServiceGeometria.Servicios.Minijuegos;
 
 namespace WebServiceGeometria.Controllers
@@ -13,7 +14,8 @@ namespace WebServiceGeometria.Controllers
             _servicio = minijuegos;
         }
 
-
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         [HttpGet("Menu")]
         public IActionResult getMenu()
         {
@@ -26,6 +28,20 @@ namespace WebServiceGeometria.Controllers
             {
                 return BadRequest(new { mensaje = ex.Message });
             }
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        [HttpPost("Insertar")]
+        public IActionResult Insertar([FromBody] dtoInsertarMinijuego dto)
+        {
+            var resultado = _servicio.Insertar(dto);
+
+            if (resultado.StartsWith("Error"))
+                return BadRequest(resultado);
+
+            return Ok(resultado);
+
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
+using System.Data;
+using WebServiceGeometria.Respuestas.Minijuegos.DTO;
 using WebServiceGeometria.Respuestas.Minijuegos.Vistas;
 namespace WebServiceGeometria.Servicios.Minijuegos
 {
@@ -45,6 +47,30 @@ namespace WebServiceGeometria.Servicios.Minijuegos
                 throw;
             }
         }
+        public string Insertar(dtoInsertarMinijuego dto)
+        {
+            try
+            {
+                using (var connection = new MySqlConnection(_connectionString))
+                {
+                    using (var command = new MySqlCommand("SP_Insertar_Minijuego"))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("sp_nombre_minijuego", dto.nombre_minijuego);
+                        command.Parameters.AddWithValue("sp_icono", dto.icono);
+                        command.Parameters.AddWithValue("sp_descripcion", dto.descripcion);
+                        command.Parameters.AddWithValue("sp_estado", dto.estado);
+                        command.Parameters.AddWithValue("sp_ventana", dto.ventana);
 
+                        command.ExecuteNonQuery();
+                        return "Registro completado con exito";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return ("Error: " + ex.Message);
+            }
+        }
     }
 }

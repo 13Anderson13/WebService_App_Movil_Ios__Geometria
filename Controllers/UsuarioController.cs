@@ -9,14 +9,11 @@ namespace WebServiceGeometria.Controllers
     [Route("api/Usuario")]
     public class UsuarioController : Controller
     {
-        private readonly ServiceUsuarios obj1;
-        private readonly IConfiguration _configuration;
-        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, (string Code, DateTime Expiration)> _verificationCodes = new();
-
-        public UsuarioController(ServiceUsuarios servicio, IConfiguration configuration)
+        private readonly ServiceUsuarios _usuario;
+        
+        public UsuarioController(ServiceUsuarios servicio)
         {
-            obj1 = servicio;
-            _configuration = configuration;
+            _usuario = servicio;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,7 +21,7 @@ namespace WebServiceGeometria.Controllers
         [HttpPost("Logear")]
         public ActionResult<vConsultarUsuarios> Logear([FromBody] dtoValidarUsuario dto)
         {
-            var usuario = obj1.Logear(dto);
+            var usuario = _usuario.Logear(dto);
 
             if (usuario == null)
                 return NotFound("Usuario no encontrado o credenciales incorrectas");
@@ -40,7 +37,7 @@ namespace WebServiceGeometria.Controllers
 
         public ActionResult Insertar([FromBody] dtoInsertarUsuario dto)
         {
-            var resultado = obj1.Insertar(dto);
+            var resultado = _usuario.Insertar(dto);
 
             if (resultado.StartsWith("Error"))
                 return BadRequest(resultado);
