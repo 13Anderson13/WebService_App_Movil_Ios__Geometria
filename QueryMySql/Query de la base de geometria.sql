@@ -24,7 +24,7 @@ CREATE TABLE Categoria_Minijuego(
     ventana VARCHAR(50) DEFAULT "VentanaDefault"
 );
 
-INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Relacionar Figuras","heart", "Aprende y relaciona figuras");
+INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Relacionar Figuras","heart", "Aprende y relaciona figuras",1,"VentanaMatchShadow");
 INSERT INTO Categoria_Minijuego (nombre_minijuego, icono, descripcion)VALUES("Calcular angulos","triangle", "Aprende y sobre angulos");
 
 CREATE TABLE Logros
@@ -37,9 +37,35 @@ CREATE TABLE Logros
 
 INSERT INTO Logros (nombre_logro, descripcion_logro, icono) VALUES ("INICIO SESION","Regristrate","circle");
 
+CREATE TABLE Nivel
+(
+	id_nivel INT PRIMARY KEY AUTO_INCREMENT,
+    id_minijuego INT,
+    titulo_nivel VARCHAR(50),
+    dificultad VARCHAR(20) DEFAULT "FACIL",
+    estado BOOLEAN DEFAULT TRUE
+);
+
+INSERT INTO Nivel (id_minijuego,titulo_nivel,dificultad) VALUES (1, "Nivel 1: Básicos", "Fácil");
+
+CREATE TABLE Detalle_Nivel_Figura
+(
+	id_detalle INT PRIMARY KEY AUTO_INCREMENT,
+	id_nivel INT,
+    nombre_figura VARCHAR(50),
+    icono VARCHAR(50) DEFAULT "triangle",
+    coordenada_sombra_x FLOAT NOT NULL,
+    coordenada_sombra_y FLOAT NOT NULL,
+    coordenada_ficha_x FLOAT NOT NULL,
+    coordenada_ficha_y FLOAT NOT NULL
+);
+
+INSERT INTO Detalle_Nivel_Figura (id_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1, "Estrella", "star.fill", 200, 300, 100, 650);
+INSERT INTO Detalle_Nivel_Figura (id_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1, "Corazón", "heart.fill", 200, 450, 300, 650);
+
 -- ===== Procedimientos almacenados =====
 
--- Descripcion : (Inserta un usuario en la base de datos, aunque como tal solo en el web service) 
+-- Descripcion : (Inserta un usuario en la base de datos, aunque como tal solo funciona en el web service) 
 DELIMITER //
 CREATE DEFINER=`Bruce`@`%` PROCEDURE `SP_Insertar_Usuario`
 (
@@ -136,3 +162,14 @@ CREATE VIEW V_Consultar_Logros
 AS
 	SELECT id_logro, nombre_logro, descripcion_logro, icono FROM Logros
 END;
+
+CREATE VIEW v_Consultar_Nivel
+AS
+	SELECT id_nivel, id_minijuego, titulo_nivel, dificultad, estado FROM Nivel
+END;
+
+CREATE VIEW v_Detalle_Minijuego
+AS
+	SELECT id_detalle, id_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y FROM detalle_nivel_figura
+END;
+    SELECT * FROM geometria.detalle_nivel_figura;
