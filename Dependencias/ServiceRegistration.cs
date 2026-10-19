@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using WebServiceGeometria.Servicios.Logros;
 using WebServiceGeometria.Servicios.Minijuegos;
+using WebServiceGeometria.Servicios.Niveles;
 using WebServiceGeometria.Servicios.Usuarios;
 namespace WebServiceGeometria.Contexto
 {
@@ -16,6 +17,8 @@ namespace WebServiceGeometria.Contexto
             services.AddScoped<ServiceUsuarios>();
             services.AddScoped<ServiceMinijuegos>();
             services.AddScoped<ServiceLogros>();
+            services.AddScoped<ServiceNivelMatchShadow>();
+            services.AddScoped<ServiceDetalleNivelesMatchShadow>();
             return services;
         }
     }

@@ -40,28 +40,37 @@ INSERT INTO Logros (nombre_logro, descripcion_logro, icono) VALUES ("INICIO SESI
 CREATE TABLE Nivel
 (
 	id_nivel INT PRIMARY KEY AUTO_INCREMENT,
+    numero_nivel LONG,
     id_minijuego INT,
     titulo_nivel VARCHAR(50),
     dificultad VARCHAR(20) DEFAULT "FACIL",
-    estado BOOLEAN DEFAULT TRUE
+    estado BOOLEAN DEFAULT TRUE,
+    CONSTRAINT fk_nivel_minijuego FOREIGN KEY (id_minijuego) REFERENCES categoria_minijuego(id_minijuego)
+	ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
-INSERT INTO Nivel (id_minijuego,titulo_nivel,dificultad) VALUES (1, "Nivel 1: Básicos", "Fácil");
+INSERT INTO Nivel (numero_nivel,id_minijuego,titulo_nivel,dificultad) VALUES (1,1, "Nivel 1: Básicos", "Fácil");
+INSERT INTO Nivel (numero_nivel,id_minijuego,titulo_nivel,dificultad) VALUES (2,1, "Nivel 2: Básicos", "Fácil");
 
 CREATE TABLE Detalle_Nivel_Figura
 (
 	id_detalle INT PRIMARY KEY AUTO_INCREMENT,
-	id_nivel INT,
+    id_nivel INT,
+	numero_nivel INT,
     nombre_figura VARCHAR(50),
     icono VARCHAR(50) DEFAULT "triangle",
     coordenada_sombra_x FLOAT NOT NULL,
     coordenada_sombra_y FLOAT NOT NULL,
     coordenada_ficha_x FLOAT NOT NULL,
-    coordenada_ficha_y FLOAT NOT NULL
+    coordenada_ficha_y FLOAT NOT NULL,
+    CONSTRAINT fk_detalle_nivel FOREIGN KEY (id_nivel) REFERENCES Nivel(id_nivel)
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE
 );
 
-INSERT INTO Detalle_Nivel_Figura (id_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1, "Estrella", "star.fill", 200, 300, 100, 650);
-INSERT INTO Detalle_Nivel_Figura (id_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1, "Corazón", "heart.fill", 200, 450, 300, 650);
+INSERT INTO Detalle_Nivel_Figura (id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1,1, "Estrella", "star.fill", 200, 300, 100, 650);
+INSERT INTO Detalle_Nivel_Figura (id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1,1, "Corazón", "heart.fill", 200, 450, 300, 650);
 
 -- ===== Procedimientos almacenados =====
 
@@ -165,11 +174,12 @@ END;
 
 CREATE VIEW v_Consultar_Nivel
 AS
-	SELECT id_nivel, id_minijuego, titulo_nivel, dificultad, estado FROM Nivel
+	SELECT id_nivel,numero_nivel, id_minijuego, titulo_nivel, dificultad, estado FROM Nivel
 END;
 
-CREATE VIEW v_Detalle_Minijuego
+CREATE VIEW v_Detalle_Minijuego_matchshadow
 AS
-	SELECT id_detalle, id_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y FROM detalle_nivel_figura
+	SELECT id_detalle, id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y FROM detalle_nivel_figura
 END;
-    SELECT * FROM geometria.detalle_nivel_figura;
+
+SELECT * from v_consultar_nivel

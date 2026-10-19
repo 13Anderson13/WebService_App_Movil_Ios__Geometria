@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using System.ComponentModel;
 using System.Data;
 using WebServiceGeometria.Respuestas.Minijuegos.DTO;
 using WebServiceGeometria.Respuestas.Minijuegos.Vistas;
