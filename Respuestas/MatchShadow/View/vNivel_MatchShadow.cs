@@ -6,7 +6,7 @@
         public int numero_nivel { get; set; }
         public int id_minijuego { get; set; }
         public string titulo_nivel { get; set; } = string.Empty;
-        public string dificultad { get; set; } = string.Empty;
+        public int dificultad { get; set; }
         public bool estado { get; set; }
     }
 }

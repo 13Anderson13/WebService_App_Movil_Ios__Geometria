@@ -22,7 +22,7 @@ namespace WebServiceGeometria.Servicios.Niveles
                     consulta.Open();
 
                     string query = @"SELECT id_nivel,numero_nivel, id_minijuego, titulo_nivel, dificultad, estado FROM v_Consultar_Nivel " +
-                    "WHERE estado = true AND id_minijuego = @id_minijuego";
+                    "WHERE id_minijuego = @id_minijuego";
 
                     using (MySqlCommand cmd = new(query, consulta))
                     {
@@ -38,7 +38,7 @@ namespace WebServiceGeometria.Servicios.Niveles
                                     numero_nivel = Convert.ToInt32(reader["numero_nivel"]),
                                     id_minijuego = Convert.ToInt32(reader["id_minijuego"]),
                                     titulo_nivel = reader["titulo_nivel"].ToString(),
-                                    dificultad = reader["dificultad"].ToString(),
+                                    dificultad = Convert.ToInt32(reader["dificultad"]),
                                     estado = Convert.ToBoolean(reader["estado"])
                                 });
                             }

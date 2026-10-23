@@ -43,15 +43,15 @@ CREATE TABLE Nivel
     numero_nivel LONG,
     id_minijuego INT,
     titulo_nivel VARCHAR(50),
-    dificultad VARCHAR(20) DEFAULT "FACIL",
+    dificultad INT DEFAULT 0,
     estado BOOLEAN DEFAULT TRUE,
     CONSTRAINT fk_nivel_minijuego FOREIGN KEY (id_minijuego) REFERENCES categoria_minijuego(id_minijuego)
 	ON DELETE CASCADE 
     ON UPDATE CASCADE
 );
 
-INSERT INTO Nivel (numero_nivel,id_minijuego,titulo_nivel,dificultad) VALUES (1,1, "Nivel 1: Básicos", "Fácil");
-INSERT INTO Nivel (numero_nivel,id_minijuego,titulo_nivel,dificultad) VALUES (2,1, "Nivel 2: Básicos", "Fácil");
+INSERT INTO Nivel (numero_nivel,id_minijuego,titulo_nivel,dificultad) VALUES (1,1, "Nivel 1: Básicos", 1);
+INSERT INTO Nivel (numero_nivel,id_minijuego,titulo_nivel,dificultad) VALUES (2,1, "Nivel 2: Básicos", 1);
 
 CREATE TABLE Detalle_Nivel_Figura
 (
@@ -181,5 +181,3 @@ CREATE VIEW v_Detalle_Minijuego_matchshadow
 AS
 	SELECT id_detalle, id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y FROM detalle_nivel_figura
 END;
-
-SELECT * from v_consultar_nivel
