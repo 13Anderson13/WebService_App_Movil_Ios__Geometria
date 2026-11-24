@@ -72,8 +72,49 @@ CREATE TABLE Detalle_Nivel_Figura
 INSERT INTO Detalle_Nivel_Figura (id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1,1, "Estrella", "star.fill", 200, 300, 100, 650);
 INSERT INTO Detalle_Nivel_Figura (id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y) VALUES (1,1, "Corazón", "heart.fill", 200, 450, 300, 650);
 
--- ===== Procedimientos almacenados =====
+-- Perimetro vs area
+CREATE TABLE Detalle_Nivel_Medida (
+    id_detalle INT PRIMARY KEY AUTO_INCREMENT,
+    id_nivel INT NOT NULL,
+    orden INT DEFAULT 1,
+    base_disponible INT NOT NULL,
+    altura INT NOT NULL,
+    modo VARCHAR(20) NOT NULL,            -- 'area' o 'perimetro'
+    opciones_json JSON NOT NULL,          -- Ej: '[7, 12, 14, 16]'
+    respuesta_correcta INT NOT NULL,
+    CONSTRAINT fk_medida_nivel FOREIGN KEY (id_nivel) REFERENCES Nivel(id_nivel)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 
+-- Cazador de angulos
+CREATE TABLE Detalle_Nivel_Angulo (
+    id_detalle INT PRIMARY KEY AUTO_INCREMENT,
+    id_nivel INT NOT NULL,
+    orden INT DEFAULT 1,
+    grados FLOAT NOT NULL,                -- Ej: 45, 90, 130
+    mostrar_grados BOOLEAN DEFAULT FALSE, -- TRUE si muestra "45°", FALSE si solo visual
+    tipo_esperado VARCHAR(20) NOT NULL,   -- 'Agudo', 'Recto', 'Obtuso'
+    CONSTRAINT fk_angulo_nivel FOREIGN KEY (id_nivel) REFERENCES Nivel(id_nivel)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Clasificador geometrico
+
+-- ===== Procedimientos almacenados =====
+CREATE TABLE Detalle_Nivel_Clasificador (
+    id_detalle INT PRIMARY KEY AUTO_INCREMENT,
+    id_nivel INT NOT NULL,
+    orden INT DEFAULT 1,
+    enunciado VARCHAR(200) NOT NULL,
+    icono VARCHAR(50) DEFAULT 'triangle',
+    opciones_json JSON NOT NULL,          -- Ej: '["3", "4", "5", "6"]'
+    respuesta_correcta VARCHAR(100) NOT NULL,
+    CONSTRAINT fk_clasificador_nivel FOREIGN KEY (id_nivel) REFERENCES Nivel(id_nivel)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
 -- Descripcion : (Inserta un usuario en la base de datos, aunque como tal solo funciona en el web service) 
 DELIMITER //
 CREATE DEFINER=`Bruce`@`%` PROCEDURE `SP_Insertar_Usuario`
@@ -181,3 +222,40 @@ CREATE VIEW v_Detalle_Minijuego_matchshadow
 AS
 	SELECT id_detalle, id_nivel,numero_nivel, nombre_figura, icono, coordenada_sombra_x, coordenada_sombra_y, coordenada_ficha_x, coordenada_ficha_y FROM detalle_nivel_figura
 END;
+
+
+CREATE VIEW v_Detalle_Minijuego_Clasificador
+AS
+    SELECT 
+        id_detalle,
+        id_nivel,
+        orden,
+        enunciado,
+        icono,
+        opciones_json,
+        respuesta_correcta
+    FROM Detalle_Nivel_Clasificador;
+    
+CREATE VIEW v_Detalle_Minijuego_Angulos
+AS
+    SELECT 
+        id_detalle,
+        id_nivel,
+        orden,
+        grados,
+        mostrar_grados,
+        tipo_esperado
+    FROM Detalle_Nivel_Angulo;
+    
+CREATE VIEW v_Detalle_Minijuego_PerimetroArea
+AS
+    SELECT 
+        id_detalle,
+        id_nivel,
+        orden,
+        base_disponible,
+        altura,
+        modo,
+        opciones_json,
+        respuesta_correcta
+    FROM Detalle_Nivel_Medida;
